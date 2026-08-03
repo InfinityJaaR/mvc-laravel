@@ -1,58 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Catálogo Turístico de El Salvador — Práctica de MVC en Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicación web desarrollada como ejercicio del bootcap fullstack jr de Kodigo para demostrar la implementación del patrón arquitectónico **MVC (Modelo-Vista-Controlador)** en Laravel. Permite explorar un catálogo de destinos turísticos de El Salvador, ver el detalle de cada lugar y enviar un formulario de contacto para solicitar más información.
 
-## About Laravel
+La fuente de datos de los lugares turísticos es un **archivo JSON** (no una base de datos), con el objetivo de practicar el manejo de archivos y estructuras de datos en PHP dentro del flujo MVC.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requisitos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.2 o superior
+- Composer
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalación
 
 ```bash
-composer require laravel/boost --dev
+git clone git@github.com:InfinityJaaR/mvc-laravel.git
+cd mvc-laravel
 
-php artisan boost:install
+composer install
+
+cp .env.example .env
+php artisan key:generate
+
+php artisan migrate
+
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+La aplicación quedará disponible en `http://localhost:8000`. La migración configura las tablas por defecto de Laravel (sesiones, caché, colas en SQLite); **el catálogo de lugares turísticos no usa base de datos**, se sirve desde un archivo JSON (ver sección de datos de prueba).
 
-## Contributing
+## Flujo MVC implementado
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+La aplicación sigue el ciclo completo de una petición HTTP a través de las tres capas de MVC:
 
-## Code of Conduct
+```
+Ruta (routes/web.php)
+    → Controlador (app/Http/Controllers/*.php)
+        → Modelo (app/Models/Lugar.php)
+            → Vista (resources/views/**/*.blade.php)
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Rutas** (`routes/web.php`) — definen los endpoints y a qué acción de controlador los envían:
 
-## Security Vulnerabilities
+| Método | URI              | Controlador@Acción            | Nombre           |
+|--------|------------------|--------------------------------|------------------|
+| GET    | `/`              | Redirect a `/lugares`          | —                |
+| GET    | `/lugares`       | `LugarController@index`        | `lugares.index`  |
+| GET    | `/lugares/{id}`  | `LugarController@show`         | `lugares.show`   |
+| GET    | `/contacto`      | `ContactoController@create`    | `contacto.create`|
+| POST   | `/contacto`      | `ContactoController@store`     | `contacto.store` |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Controladores** (`app/Http/Controllers/`) — reciben la petición, piden los datos al modelo y eligen la vista a renderizar:
+- `LugarController`: `index()` lista todos los lugares; `show($id)` muestra el detalle de uno o responde 404 si no existe.
+- `ContactoController`: `create()` muestra el formulario (pre-seleccionando un lugar si se llega desde su detalle); `store()` valida los datos enviados, los agrega a `storage/app/private/contactos.json` y redirige con un mensaje de confirmación (patrón Post/Redirect/Get).
 
-## License
+**Modelo** (`app/Models/Lugar.php`) — en vez de extender `Eloquent Model` (que trabajaría con base de datos), es una clase PHP plana que lee y decodifica `resources/data/lugares.json`, exponiendo `Lugar::all()` y `Lugar::find($id)`. Esto es intencional: el ejercicio busca practicar el manejo de archivos y estructuras de datos en PHP como fuente de un "modelo", no el ORM de Laravel.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Vistas** (`resources/views/`) — plantillas Blade que reciben los datos del controlador y los renderizan, sin lógica de negocio:
+- `layouts/app.blade.php` — layout compartido con navegación y Bootstrap.
+- `lugares/index.blade.php` — catálogo en formato de tarjetas.
+- `lugares/show.blade.php` — detalle de un lugar (título, departamento, categoría, precio, horario, ubicación, descripción).
+- `contacto/create.blade.php` — formulario de contacto con validación y mensaje de éxito.
+
+## Datos de prueba
+
+`resources/data/lugares.json` contiene 8 lugares turísticos reales de El Salvador (Ruta de las Flores, Playa El Tunco, Suchitoto, Joya de Cerén, Volcán de Santa Ana, Lago de Coatepeque, Centro Histórico de San Salvador y Concepción de Ataco), cada uno con: `id`, `titulo`, `departamento`, `categoria`, `precio`, `descripcion`, `horario`, `ubicacion` e `imagen`.
+
+Los mensajes enviados desde el formulario de contacto se acumulan en `storage/app/private/contactos.json` (archivo generado en tiempo de ejecución, excluido de git).
+
+## Capturas de pantalla
+
+**Catálogo de lugares turísticos**
+![Catálogo de lugares](docs/screenshots/catalogo.png)
+
+**Detalle de un lugar**
+![Detalle de un lugar](docs/screenshots/detalle-lugar.png)
+
+**Formulario de contacto**
+![Formulario de contacto](docs/screenshots/contacto-formulario.png)
+
+**Confirmación de envío**
+![Confirmación de envío del formulario](docs/screenshots/contacto-exito.png)

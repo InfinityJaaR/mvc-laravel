@@ -1,0 +1,90 @@
+[
+    {
+        "id": 1,
+        "titulo": "Ruta de las Flores",
+        "departamento": "Sonsonate / Ahuachapán",
+        "categoria": "Pueblo",
+        "precio": "Gratis (recorrido); costos varían por pueblo",
+        "descripcion": "Recorrido turístico que conecta pueblos coloridos como Nahuizalco, Salcoatitán, Juayúa, Apaneca y Concepción de Ataco, conocidos por su artesanía, café y gastronomía.",
+        "horario": "Todos los días; mejor visitado los fines de semana por el Festival de Gastronomía y Artesanías",
+        "ubicacion": "Occidente de El Salvador, entre Sonsonate y Ahuachapán",
+        "imagen": "lugares/ruta-de-las-flores.jpg"
+    },
+    {
+        "id": 2,
+        "titulo": "Playa El Tunco",
+        "departamento": "La Libertad",
+        "categoria": "Playa",
+        "precio": "Gratis",
+        "descripcion": "Reconocida playa de arena negra ideal para el surf, con ambiente bohemio, restaurantes y hospedaje frente al mar.",
+        "horario": "Acceso todo el día",
+        "ubicacion": "Municipio de Tamanique, La Libertad",
+        "imagen": "lugares/el-tunco.jpg"
+    },
+    {
+        "id": 3,
+        "titulo": "Suchitoto",
+        "departamento": "Cuscatlán",
+        "categoria": "Centro histórico",
+        "precio": "Gratis (recorrido por el pueblo); museos desde $1.00",
+        "descripcion": "Pueblo colonial a orillas del Lago Suchitlán, famoso por su arquitectura, arte, ferias gastronómicas y miradores naturales.",
+        "horario": "Todos los días, 8:00 am - 6:00 pm (según establecimiento)",
+        "ubicacion": "Departamento de Cuscatlán, a 47 km de San Salvador",
+        "imagen": "lugares/suchitoto.jpg"
+    },
+    {
+        "id": 4,
+        "titulo": "Joya de Cerén",
+        "departamento": "La Libertad",
+        "categoria": "Sitio arqueológico",
+        "precio": "$3.00 general / $1.00 estudiantes / $0.50 niños",
+        "descripcion": "Sitio arqueológico declarado Patrimonio de la Humanidad por la UNESCO, conocido como la 'Pompeya de América' por conservar una aldea maya sepultada por ceniza volcánica.",
+        "horario": "Martes a domingo, 9:00 am - 4:00 pm",
+        "ubicacion": "San Juan Opico, La Libertad",
+        "imagen": "lugares/joya-de-ceren.jpg"
+    },
+    {
+        "id": 5,
+        "titulo": "Volcán de Santa Ana",
+        "departamento": "Santa Ana",
+        "categoria": "Volcán",
+        "precio": "$1.00 entrada al parque + $6.00 guía obligatorio",
+        "descripcion": "El volcán más alto de El Salvador, con una laguna cratérica de tono turquesa visible tras una caminata de aproximadamente 2 horas.",
+        "horario": "Todos los días, ascenso guiado desde las 11:00 am",
+        "ubicacion": "Parque Nacional Los Volcanes, Santa Ana",
+        "imagen": "lugares/volcan-santa-ana.jpg"
+    },
+    {
+        "id": 6,
+        "titulo": "Lago de Coatepeque",
+        "departamento": "Santa Ana",
+        "categoria": "Lago",
+        "precio": "Gratis (acceso público); actividades acuáticas con costo variable",
+        "descripcion": "Lago volcánico de aguas azul-verdosas rodeado de restaurantes, hoteles y áreas recreativas, ideal para deportes acuáticos y descanso.",
+        "horario": "Acceso todo el día",
+        "ubicacion": "Departamento de Santa Ana",
+        "imagen": "lugares/lago-coatepeque.jpg"
+    },
+    {
+        "id": 7,
+        "titulo": "Centro Histórico de San Salvador",
+        "departamento": "San Salvador",
+        "categoria": "Centro histórico",
+        "precio": "Gratis (recorrido); museos y teatro desde $1.00",
+        "descripcion": "Corazón de la capital con edificios emblemáticos como el Palacio Nacional, la Catedral Metropolitana, el Teatro Nacional y el Mercado Ex Cuartel.",
+        "horario": "Todos los días, horario diurno recomendado",
+        "ubicacion": "San Salvador",
+        "imagen": "lugares/centro-historico-san-salvador.jpg"
+    },
+    {
+        "id": 8,
+        "titulo": "Concepción de Ataco",
+        "departamento": "Ahuachapán",
+        "categoria": "Pueblo",
+        "precio": "Gratis (recorrido); talleres y cafés con costo variable",
+        "descripcion": "Uno de los pueblos más pintorescos de la Ruta de las Flores, reconocido por sus murales, cafetales y ambiente artesanal.",
+        "horario": "Todos los días, mayor actividad los fines de semana",
+        "ubicacion": "Departamento de Ahuachapán",
+        "imagen": "lugares/concepcion-de-ataco.jpg"
+    }
+]
